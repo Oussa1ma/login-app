@@ -1,0 +1,97 @@
+<form
+  #registerForm="ngForm"
+  (ngSubmit)="onSubmit(registerForm.value)"
+  class="relative space-y-4 rounded-md bg-white p-6 shadow-xl lg:p-10 border border-gray-100 m-10"
+>
+  @if(errorMessage) {
+  <div class="bg-rose-100 p-6 rounded">{{ errorMessage }}</div>
+  } @if(successMessage) {
+  <div class="bg-green-100 p-6 rounded">{{ successMessage }}</div>
+  }
+  <h1 class="text-xl font-semibold lg:text-2xl">S'inscrire</h1>
+  <p class="pb-4 text-gray-500">Bienvenue</p>
+
+  <div class="">
+    <label class=""> Nom d'utilisateur</label>
+    <input
+      required
+      name="user"
+      type="text"
+      placeholder=""
+      class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring"
+      ngModel
+    />
+    <label class=""> Adresse e-mail</label>
+    <input
+      required
+      email
+      name="email"
+      type="email"
+      placeholder="Info@exemple.com"
+      class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring"
+      ngModel
+    />
+    @if(registerForm.controls["email"].invalid &&
+    registerForm.controls["email"].dirty) {
+    <p class="text-red-500 text-sm font-semibold mt-1">Email est invalide</p>
+    }
+  </div>
+  <div>
+    <label class=""> Mot de passe </label>
+    <input
+      name="password"
+      ngModel
+      required
+      minlength="4"
+      type="password"
+      placeholder="******"
+      class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring"
+      #firstPassword
+    />
+    <label class=""> Confirmer le Mot de passe </label>
+    <input
+      name="confirmPw"
+      ngModel
+      required
+      minlength="4"
+      type="password"
+      placeholder="******"
+      class="mt-2 h-12 w-full rounded-md bg-gray-100 px-3 outline-none focus:ring"
+      #confirmPassword
+    />
+    @if(registerForm.controls["password"].dirty &&
+    registerForm.controls["confirmPw"].dirty && (firstPassword.value !=
+    confirmPassword.value)) {
+    <p class="text-red-500 text-sm font-semibold mt-1">
+      Mots de passe incompatibles
+    </p>
+    }
+  </div>
+
+  <div>
+    <button
+      [disabled]="
+        firstPassword.value != confirmPassword.value || !registerForm.valid
+      "
+      [ngClass]="{
+        'cursor-not-allowed opacity-70':
+          firstPassword.value != confirmPassword.value || !registerForm.valid,
+
+      }"
+      type="submit"
+      class="mt-5 w-full cur rounded-md bg-blue-600 p-2 text-center font-semibold text-white outline-none focus:ring"
+    >
+      Continuer
+    </button>
+  </div>
+  <div>
+    <p class="text-gray-700">
+      Vous avez un compte ?
+      <span
+        (click)="goToLogin()"
+        class="text-blue-600 cursor-pointer hover:underline"
+        >Se connecter</span
+      >
+    </p>
+  </div>
+</form>
